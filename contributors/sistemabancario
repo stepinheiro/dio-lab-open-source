@@ -1,0 +1,66 @@
+nome_banco = "BANCO DA STEPHANIE CARDOSO"
+nome_cliente = input("Digite seu nome para acessar sua conta: ")
+
+saldo = 0
+extrato = []
+limite_saque = 500
+max_saques = 3
+qtd_saques = 0
+
+def mostrar_cabecalho():
+    print("\n" + "=" * 40)
+    print(f" {nome_banco}")
+    print(f" Cliente: {nome_cliente}")
+    print("=" * 40)
+
+while True:
+    mostrar_cabecalho()
+    print("[D] Depósito")
+    print("[S] Saque")
+    print("[E] Extrato")
+    print("[Q] Sair")
+    opcao = input("Escolha uma opção: ").lower()
+
+    if opcao == 'd':
+        valor = float(input("\nDigite o valor do depósito: R$ "))
+        if valor > 0:
+            saldo += valor
+            extrato.append(f"Depósito: R$ {valor:.2f}")
+            print("✅ Depósito realizado com sucesso!")
+        else:
+            print("❌ Valor inválido para depósito.")
+
+    elif opcao == 's':
+        if qtd_saques >= max_saques:
+            print("❌ Você atingiu o número máximo de saques diários.")
+            continue
+
+        valor = float(input("\nDigite o valor do saque: R$ "))
+        if valor <= 0:
+            print("❌ Valor inválido.")
+        elif valor > saldo:
+            print("❌ Saldo insuficiente.")
+        elif valor > limite_saque:
+            print(f"❌ O limite por saque é de R$ {limite_saque}.")
+        else:
+            saldo -= valor
+            qtd_saques += 1
+            extrato.append(f"Saque: R$ {valor:.2f}")
+            print("✅ Saque realizado com sucesso!")
+
+    elif opcao == 'e':
+        print("\n========== EXTRATO ==========")
+        if not extrato:
+            print("Nenhuma movimentação realizada.")
+        else:
+            for item in extrato:
+                print(item)
+        print(f"\nSaldo atual: R$ {saldo:.2f}")
+        print("=============================")
+
+    elif opcao == 'q':
+        print(f"\n👋 Obrigado por usar o {nome_banco}, {nome_cliente}!")
+        break
+
+    else:
+        print("❌ Opção inválida. Tente novamente.")
